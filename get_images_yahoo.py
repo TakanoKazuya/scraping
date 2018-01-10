@@ -11,17 +11,17 @@ import sys #sysモジュール（インタプリタの動作関連モジュー�
 import traceback #スタックトレースを抽出し、書式を整える
 from mimetypes import guess_extension #mime型に基いて拡張子を推定する関数
 from time import time, sleep #時間に関する関数を提供するモジュール
-from urllib.request import urlopen, Request
-from urllib.parse import quote
-from bs4 import BeautifulSoup
+from urllib.request import urlopen, Request #URLを読み込むためのモジュール
+from urllib.parse import quote #URLをパースするためのモジュール
+from bs4 import BeautifulSoup #ビューティフルスープ
 
 MY_EMAIL_ADDR = 'takano@ryujifujimura.jp'
 
 class Fetcher:
-    def __init__(self, ua=''):
+    def __init__(self, ua=''):  #コンストラクタ
         self.ua = ua
 
-    def fetch(self, url):
+    def fetch(self, url):   #fetch()メソッド
         req = Request(url, headers={'User-Agent': self.ua})
         try:
             with urlopen(req, timeout=3) as p:
@@ -35,10 +35,10 @@ class Fetcher:
 
 fetcher = Fetcher(MY_EMAIL_ADDR)
 
-def fetch_and_save_img(word):
+def fetch_and_save_img(word):   #データを保存するメソッド
     data_dir = 'data/'
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
+    if not os.path.exists(data_dir): #data_dirがなかったら
+        os.makedirs(data_dir)       #data_dirを作成(osモジュールによる)
 
     for i, img_url in enumerate(img_url_list(word)):
         sleep(0.1)
@@ -57,9 +57,7 @@ def fetch_and_save_img(word):
 
 
 def img_url_list(word):
-    """
-    using yahoo (this script can't use at google)
-    """
+    """    using yahoo (this script can't use at google    """
     url = 'http://image.search.yahoo.co.jp/search?n=60&p={}&search.x=1'.format(quote(word))
     byte_content, _ = fetcher.fetch(url)
     structured_page = BeautifulSoup(byte_content.decode('UTF-8'), 'html.parser')
