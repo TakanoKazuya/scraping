@@ -57,14 +57,27 @@ def fetch_and_save_img(word):   #データを保存するメソッド
 
 
 def img_url_list(word):
-    """    using yahoo (this script can't use at google    """
-    url = 'http://image.search.yahoo.co.jp/search?n=60&p={}&search.x=1'.format(quote(word))
-    byte_content, _ = fetcher.fetch(url)
-    structured_page = BeautifulSoup(byte_content.decode('UTF-8'), 'html.parser')
-    img_link_elems = structured_page.find_all('a', attrs={'target': 'imagewin'})
-    img_urls = [e.get('href') for e in img_link_elems if e.get('href').startswith('http')]
-    img_urls = list(set(img_urls))
-    return img_urls
+    """
+    using yahoo (this script can't use at google)
+    """
+    page_count = 1
+    img_all = []
+    try:
+        for k in range(0,101,20):
+            url = 'http://search.yahoo.co.jp/image/search?oq=&ktot=6&dtot=0&ei=UTF-8&p={}'.format(quote(word))
+            full_url = url+"&xargs="+str(page_count)+"&b="+str(k+1)
+
+            byte_content, _ = fetcher.fetch(full_url)
+            structured_page = BeautifulSoup(byte_content.decode('UTF-8'), 'html.parser')
+            img_link_elems = structured_page.find_all('a', attrs={'target': 'imagewin'})
+            img_urls = [e.get('href') for e in img_link_elems if e.get('href').startswith('http')]
+            img_all = img_all + list(set(img_urls))
+
+            page_count = page_count+1
+        return k
+
+    finally:
+        return img_all
 
 if __name__ == '__main__':
     word = sys.argv[1]
