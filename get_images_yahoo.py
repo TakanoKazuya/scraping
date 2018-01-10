@@ -63,7 +63,7 @@ def img_url_list(word):
     page_count = 1
     img_all = []
     try:
-        for k in range(0,101,20):
+        for k in range(0,1001,20):
             url = 'http://search.yahoo.co.jp/image/search?oq=&ktot=6&dtot=0&ei=UTF-8&p={}'.format(quote(word))
             full_url = url+"&xargs="+str(page_count)+"&b="+str(k+1)
 
