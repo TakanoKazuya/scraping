@@ -6,11 +6,11 @@
 
 # coding: utf-8
 
-import os
-import sys
-import traceback
-from mimetypes import guess_extension
-from time import time, sleep
+import os #OSモジュール（OSとの対話モジュール）のインポート
+import sys #sysモジュール（インタプリタの動作関連モジュール）のインポート
+import traceback #スタックトレースを抽出し、書式を整える
+from mimetypes import guess_extension #mime型に基いて拡張子を推定する関数
+from time import time, sleep #時間に関する関数を提供するモジュール
 from urllib.request import urlopen, Request
 from urllib.parse import quote
 from bs4 import BeautifulSoup
@@ -71,4 +71,3 @@ def img_url_list(word):
 if __name__ == '__main__':
     word = sys.argv[1]
     fetch_and_save_img(word)
-
